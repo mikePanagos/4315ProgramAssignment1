@@ -5,26 +5,10 @@ getLines(inputTxt)
 # print(lines)
 
 
-# this file is for the main part evaluate arithmetic operators
-
-
-# def goThrowList (c):
-
 returnlines = list()
 
 
-# def strMath(s):
-
-#     if "+" in s:
-#         a, b = s.split("+")
-#         result = (int(a)+int(b))
-#         returnlines.append(s+"="+str(result))
-#     elif "*" in s:
-#         a, b = s.split("*")
-#         result = (int(a)*int(b))
-#         returnlines.append(s+"="+str(result))
-
-
+# goes through the list of equations looks to see it its + or * then solves it accordingly and pushes it to a new list
 def recurseList(n):
     if (n == len(lines)):
         return 0
