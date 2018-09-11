@@ -46,6 +46,10 @@ def mathAdd(list1,list2 ,carry,index):
         mathAdd(list1,list2,carry,index+1)
 
 
+
+
+
+
 # takes the 4 digit segments and combinds them again
 def assemble(index):
     # print ("index is ",index)
@@ -57,12 +61,12 @@ def assemble(index):
 
 
 # takes a string and breaks it into 4 digit segments in reversed order
-def formlists(list,number):
-    if(len(number)<4):
-        list.append(number)
+def formlists(list,num):
+    if(len(num)<4):
+        list.append(num)
         return" "
-    list.append(number[-4:])
-    formlists(list,number[:-4])
+    list.append(num[-4:])
+    formlists(list,num[:-4])
     
 # x="199991111"
 # print(x[-4:])            [2]
