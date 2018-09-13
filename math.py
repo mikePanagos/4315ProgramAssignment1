@@ -1,34 +1,40 @@
-list1 = list()
-list2 = list()
+# list1 = list()
+# list2 = list(
 # final = list()
 
 
 print("shoud = 311101111")
 
 # this is a test
-def setlists():
-    del list1[:]
-    del list2[:]
+# def setlists():
+    # del list1[:]
+    # del list2[:]
     # del final[:]
 
 
 # takes 2 lists goes through them and adds them together in segments if the string is bigger then the
 # segment it will return it as a carry to add onto the next
 def mathAdd(list,list1, list2, carry, index):
-    print("carry is ",carry)
-    adding = int(list1[index])+int(list2[index])+int(carry)
+    # print("carry is ",carry)
+    if(len(list1)<0):
+        adding = int(list2[index])+int(carry)
+    if(len(list2)<0):
+        adding = int(list1[index])+int(carry)
+    else:
+        adding = int(list1[index])+int(list2[index])+int(carry)
+    
 
     add = str(adding)
-    print (add)
+    # print (add)
     if(add == "0"):
         add = "0000"
 
     # check if the 2 segments added together is bigger then the 4 digit segment allowed if so add the last digit to carry
     if(len(add) > 4):
         carry = int(add[:1])
-        print( "carry is =",carry)
+        # print( "carry is =",carry)
         list.append(add[1:])
-        print ("the list is",list)
+        # print ("the list is",list)
         if (index == len(list1)-1):
             if(carry):
                 list.append(str(carry))
@@ -41,7 +47,7 @@ def mathAdd(list,list1, list2, carry, index):
 
         carry = 0
 
-        print("carry is", carry)
+        # print("carry is", carry)
         if (index == len(list1)-1):
             return list
         else:
@@ -72,32 +78,32 @@ def formlists(list, num):
 # x="199991111"
 # print(x[-4:])            [2]
 # 1000 +9000=  [1][0000][0000]
-# formlists(list(), "0")
+# 
 # print(list1)
-# formlists(list2, "1")
+# 
+print("should be 1")
+# 
+print("=")
+print(assemble(0,mathAdd(list(),formlists(list(), "0"), formlists(list(), "1"), 0, 0)))
+
+# setlists()
+print("should be 11")
+
+# print(list1)
+
 # print(list2)
-# mathAdd(list1, list2, 0, 0)
-# print("=")
-# print(assemble(0))
+
+print("=")
+print(assemble(0,mathAdd(list(),formlists(list(), "1"), formlists(list(), "10"), 0, 0)))
 
 # setlists()
-# print("should be 6")
-# formlists(list1, "1")
-# # print(list1)
-# formlists(list2, "10")
-# # print(list2)
-# mathAdd(list1, list2, 0, 0)
-# print("=",final)
-# print(assemble(0))
-
-# setlists()
-print("should be 21111099999999999999")
+print("should be \n21111099999999999999")
 # print()
 # # print(list1)
 # # 
 # # print(list2)
 # mathAdd(formlists(list(), "12345667890123456789"), formlists(list(), "8765432109876543210"), 0, 0)
 # print("=",final)
-final =mathAdd(list(),formlists(list(), "12345667890123456789"), formlists(list(), "8765432109876543210"), 0, 0)
-print(final)
+final =mathAdd(list(),formlists(list(), "1234566789012888888888888888888888883456789"), formlists(list(), "12345667890128888888888888888888888888888888888888888888888888888888888888883456789"), 0, 0)
+# print(final)
 print(assemble(0,final))
