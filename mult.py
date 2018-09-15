@@ -4,15 +4,17 @@
 
 def mathAdd(list, list1, list2, carry, index):
     # print("carry is ",carry)
-    if(len(list1) < 0):
-        adding = int(list2[index])+int(carry)
-    if(len(list2) < 0):
-        adding = int(list1[index])+int(carry)
-    else:
+    if(len(list1) > index and len(list2) > index):
         adding = int(list1[index])+int(list2[index])+int(carry)
+    elif(len(list1) > index):
+        adding = int(list1[index])+int(carry)
+    elif(len(list2) > index):
+        adding = int(list2[index])+int(carry)
+    else:
+        return list
 
     add = str(adding)
-    # print (add)
+    print(add)
     if(add == "0"):
         add = "0000"
 
@@ -35,10 +37,18 @@ def mathAdd(list, list1, list2, carry, index):
         carry = 0
 
         # print("carry is", carry)
-        if (index == len(list1)-1):
-            return list
-        else:
-           return mathAdd(list, list1, list2, carry, index+1)
+        return mathAdd(list, list1, list2, carry, index+1)
+
+
+# takes the 4 digit segments and combinds them again
+def assemble(index, list):
+    # print(list)
+    # print ("index is ",index)
+    # print(" val is ",final[index])
+    if (index == len(list)-1):
+        return list[index]
+    return assemble(index+1, list)+list[index]
+
 
 # takes a string and breaks it into 4 digit segments in reversed order
 def formlists(list, num):
@@ -49,6 +59,7 @@ def formlists(list, num):
     else:
         list.append(num[-4:])
         return formlists(list, num[:-4])
+
 
 def addingZeros(index, zeroes):
 
@@ -62,7 +73,6 @@ def addingZeros(index, zeroes):
 
 
 def mathMult(num1, num2, index, final):
-
     if(len(num2) > 0):
         # print(num2[-1:])
         zeros = addingZeros(index, "")
@@ -79,18 +89,16 @@ def mathMult(num1, num2, index, final):
         return final
 
 
-def assemble(index, list):
-    # print(list)
-    # print ("index is ",index)
-    # print(" val is ",final[index])
-    if (index == len(list)-1):
-        return int(list[index])
-    return assemble(index+1, list)+int(list[index])
-
-
-# def addAll(list):
-#     return list
+def addAll(numberList):
+    if(len(numberList)>1):
+        add=int(numberList[0])+int(numberList[1])
+        numberList.remove(numberList[1])
+        numberList[0]=str(add)
+        return addAll(numberList)
+    else:
+        return numberList[0]
 
 print("5223333333310000000*500401=")
-print( mathMult("52233333333100000001444444444444444444444444444444444444444444444444444444", "500555555559999999999599959996999899949996999399929992994999599695994939929299999999999999999999999999999986986876855401", 0, list()))
+
+print(addAll(mathMult("987654321988778976432345678765432345678765432234567887654323456789876543212345678", "55533333333333333333333333333401", 0, list())))
 # print(addingZeros(5,""))

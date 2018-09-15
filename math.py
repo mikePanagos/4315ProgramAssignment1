@@ -16,16 +16,18 @@ print("shoud = 311101111")
 # segment it will return it as a carry to add onto the next
 def mathAdd(list,list1, list2, carry, index):
     # print("carry is ",carry)
-    if(len(list1)<0):
-        adding = int(list2[index])+int(carry)
-    if(len(list2)<0):
-        adding = int(list1[index])+int(carry)
-    else:
+    if(len(list1)>index and len(list2)>index):
         adding = int(list1[index])+int(list2[index])+int(carry)
+    elif(len(list1)>index):
+        adding = int(list1[index])+int(carry)
+    elif(len(list2)>index):
+        adding = int(list2[index])+int(carry)
+    else:
+        return list
     
 
     add = str(adding)
-    # print (add)
+    print (add)
     if(add == "0"):
         add = "0000"
 
@@ -48,10 +50,7 @@ def mathAdd(list,list1, list2, carry, index):
         carry = 0
 
         # print("carry is", carry)
-        if (index == len(list1)-1):
-            return list
-        else:
-           return mathAdd(list,list1, list2, carry, index+1)
+        return mathAdd(list,list1, list2, carry, index+1)
 
 
 # takes the 4 digit segments and combinds them again
@@ -66,11 +65,10 @@ def assemble(index,list):
 
 # takes a string and breaks it into 4 digit segments in reversed order
 def formlists(list, num):
-    if(len(num) < 4):
-        if(len(num)>0):
-            list.append(num)
+    if(len(num)<4):
+        list.append(num)
         return list
-    else:
+    if(len(num)> 4):       
         list.append(num[-4:])
         return  formlists(list, num[:-4])
 
@@ -84,9 +82,12 @@ def formlists(list, num):
 print("should be 1")
 # 
 print("=")
-print(assemble(0,mathAdd(list(),formlists(list(), "0"), formlists(list(), "1"), 0, 0)))
+print(assemble(0,mathAdd(list(),formlists(list(), "1"), formlists(list(), "111111"), 0, 0)))
 
 # setlists()
+print("")
+print("")
+print("")
 print("should be 11")
 
 # print(list1)
@@ -95,6 +96,10 @@ print("should be 11")
 
 print("=")
 print(assemble(0,mathAdd(list(),formlists(list(), "1"), formlists(list(), "10"), 0, 0)))
+print("")
+print("")
+print("")
+print("")
 
 # setlists()
 print("should be \n21111099999999999999")
@@ -104,6 +109,6 @@ print("should be \n21111099999999999999")
 # # print(list2)
 # mathAdd(formlists(list(), "12345667890123456789"), formlists(list(), "8765432109876543210"), 0, 0)
 # print("=",final)
-final =mathAdd(list(),formlists(list(), "1234566789012888888888888888888888883456789"), formlists(list(), "12345667890128888888888888888888888888888888888888888888888888888888888888883456789"), 0, 0)
+final =mathAdd(list(),formlists(list(), "1"), formlists(list(), "2962962965966336929297037036296297037036296296703703662962970370369629629637037034000"), 0, 0)
 # print(final)
 print(assemble(0,final))
