@@ -81,4 +81,47 @@
 # print(list2)
 # mathAdd(list1, list2, 0, 0)
 # print("=")
-# print(assemble(0))
+
+def addingZeros(index, zeroes):
+       
+        if(index==0):
+            return zeroes
+        else:
+            zeroes +="0"
+            return addingZeros(index-1,zeroes)
+
+    # print(assemble(0))
+
+
+def mathMult(num1, num2, index, final):
+
+    if(len(num2) > 0):
+        # print(num2[-1:])
+        zeros = addingZeros(index, "")
+        add = str(int(num1)*int(num2[-1:]))+zeros
+
+        if(int(add) == 0):
+            return mathMult(num1, num2[:-1], index+1, final)
+        else:
+            final.append(add)
+            return mathMult(num1, num2[:-1], index+1, final)
+        # print(num2[:-1])
+    else:
+        # print(final)
+        return final
+
+
+def assemble(index, list):
+    # print(list)
+    # print ("index is ",index)
+    # print(" val is ",final[index])
+    if (index == len(list)-1):
+        return int(list[index])
+    return assemble(index+1, list)+int(list[index])
+
+print("5223333333310000000*500401=")
+print(assemble(0, mathMult("52233333333100000001444444444444444444444444444444444444444444444444444444", "500555555559999999999599959996999899949996999399929992994999599695994939929299999999999999999999999999999986986876855401", 0, list())))
+# print(addingZeros(5,""))
+
+
+# def mathMult(list1,list2,index):
