@@ -14,10 +14,15 @@ try:
                 digitspernode = val2
             else:
                 raise Exception()
+            if digitspernode <= 0:
+                raise ValueError()
         else:
             raise Exception()
     else:
         raise Exception()
+except ValueError as err:
+    print("Digits Per Node have to be integer greater than 0")
+    exit()
 except Exception as err:
     print("python3 infinitearithmetic \"input=<filename>;digitsPerNode=<number>\"")
     exit()
