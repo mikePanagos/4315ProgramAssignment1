@@ -1,34 +1,39 @@
 from file_maker import *
 import sys
 
-# inputfile = ""
-# digitspernode = 0
-# try:
-#     if len(sys.argv)>1:
-#         inputs = sys.argv[1].replace(";"," ").split()
-#         if len(inputs) == 2:
-#             (arg1, val1) = (inputs[0].split("=")[0].strip(), inputs[0].split("=")[1].strip())
-#             (arg2, val2) = (inputs[1].split("=")[0].strip(), int(inputs[1].split("=")[1].strip()))
-#             if arg1.lower() == "input" and arg2.lower() == "digitspernode":
-#                 inputfile = val1
-#                 digitspernode = val2
-#             else:
-#                 raise
-#         else:
-#             raise
-#     else:
-#         raise
-# except:
-#     print("infinitearithmetic \"input=<filename>;digitsPerNode=<number>\"")
-#     exit()
+inputfile = ""
+digitspernode = 0
+try:
+    if len(sys.argv)>1:
+        inputs = sys.argv[1].replace(";"," ").split()
+        if len(inputs) == 2:
+            (arg1, val1) = (inputs[0].split("=")[0].strip(), inputs[0].split("=")[1].strip())
+            (arg2, val2) = (inputs[1].split("=")[0].strip(), int(inputs[1].split("=")[1].strip()))
+            if arg1.lower() == "input" and arg2.lower() == "digitspernode":
+                inputfile = val1
+                digitspernode = val2
+            else:
+                raise Exception()
+            if digitspernode <= 0:
+                raise ValueError()
+        else:
+            raise Exception()
+    else:
+        raise Exception()
+except ValueError as err:
+    print("Digits Per Node have to be integer greater than 0")
+    exit()
+except Exception as err:
+    print("python3 infinitearithmetic \"input=<filename>;digitsPerNode=<number>\"")
+    exit()
 
-# try:
-inputTxt = open("input.txt", "r")
-# except Exception as err:
-#     print(err)
-    # exit()
+try:
+    inputTxt = open(inputfile, "r")
+except Exception as err:
+    print(err)
+    exit()
 
-getLines(inputTxt)
+#getLines(inputTxt)
 # print(lines)
 
 
@@ -56,7 +61,7 @@ def mathAdd(list, list1, list2, carry, index):
         add = "0000"
 
     # check if the 2 segments added together is bigger then the 4 digit segment allowed if so add the last digit to carry
-    if(len(add) > 4):
+    if(len(add) > digitspernode):
         carry = int(add[:1])
         # print( "carry is =",carry)
         list.append(add[1:])
@@ -89,13 +94,13 @@ def assemble(index, list):
 
 # takes a string and breaks it into 4 digit segments in reversed order
 def formlists(list, num):
-    if(len(num) < 4):
+    if(len(num) < digitspernode):
         if(len(num) > 0):
             list.append(num)
         return list
     else:
-        list.append(num[-4:])
-        return formlists(list, num[:-4])
+        list.append(num[-digitspernode:])
+        return formlists(list, num[:-digitspernode])
 
 
 def addingZeros(index, zeroes):
@@ -139,7 +144,7 @@ def addAll(numberList):
 
 
 # goes through the list of equations looks to see it its + or * then solves it accordingly and pushes it to a new list
-def recurseList(n,returnlines):
+def recurseList(n,returnlines, lines):
     if (n == len(lines)):
         return returnlines
     else:
@@ -161,10 +166,10 @@ def recurseList(n,returnlines):
             else:
                 result = (addAll(mathMult(a,b,0,list())))
             returnlines.append(lines[n]+"="+str(result[0]))
-    print (returnlines[n])
-    return recurseList(n+1,returnlines)
+        print (returnlines[n])
+    return recurseList(n+1,returnlines, lines)
 
 # strMath(lines[10])
 
 # print(returnlines)
-writeLines("out.txt",recurseList(0,list()))
+writeLines("out.txt",recurseList(0,list(), getLines(inputTxt, list())))
