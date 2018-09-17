@@ -58,7 +58,8 @@ def mathAdd(list, list1, list2, carry, index):
     add = str(adding)
     # print(add)
     if(add == "0"):
-        add = "0000"
+        add=addingZeros(digitspernode,"")
+        # add = "0000"
 
     # check if the 2 segments added together is bigger then the 4 digit segment allowed if so add the last digit to carry
     if(len(add) > digitspernode):
