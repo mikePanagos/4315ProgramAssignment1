@@ -39,7 +39,7 @@ except Exception as err:
 # addeds digit segments together 
 def mathAdd(list, list1, list2, carry, index):
     # print("carry is ",carry)
-    print(list, list1, list2, carry, index)
+    # print(list, list1, list2, carry, index)
     if(len(list1) > index and len(list2) > index):
         adding = int(list1[index])+int(list2[index])+int(carry)
     elif(len(list1) > index):
@@ -104,7 +104,7 @@ def formlists(list, num):
     if(len(num) < digitspernode):
         if(len(num) > 0):
             list.append(num)
-        print(list)
+        # print(list)
         return list
     else:
         list.append(num[-digitspernode:])
@@ -159,14 +159,15 @@ def recurseList(n,returnlines, lines):
         lines[n]=lines[n].replace(" ", "")
         if "+" in lines[n]:
             a, b = lines[n].split("+")
-            if(int(a)==0):
+            if(not a.isdigit() or not b.isdigit()):
+                result="ERROR: improper operation "
+            elif(int(a)==0):
                 result=b
             elif(int(b)==0):
                 result=a
             elif(not a or not b):
                 result="ERROR: improper operation "
-            elif(not a.isdigit() or not b.isdigit()):
-                result="ERROR: improper operation "
+            
             else:
                 # formlist breaks the number int segments then those are passed into mathAdd which address the segments and # 
                 # then is assembled back into one number
@@ -180,17 +181,19 @@ def recurseList(n,returnlines, lines):
 
         elif "*" in lines[n]:
             a,b= lines[n].split("*")
-            if(int(a)==0 or int(b)==0):
-                result="0"
-            elif(not a or not b):
+            if(not a or not b):
                 result="ERROR: improper operation "
             elif(not a.isdigit() or not b.isdigit()):
                 result="ERROR: improper operation "
+            elif(int(a)==0 or int(b)==0):
+                result="0"
             else:
                 # multiply the 2 numbers by going digit by digit on B and multiplying it to a then passes results 
                 # # to addAll to add all them together
                 result = (addAll(mathMult(a,b,0,list())))
             returnlines.append(lines[n]+" = "+str(result))
+        else:
+            returnlines.append(lines[n]+" ERROR: improper operation ")
         print (returnlines[n])
     return recurseList(n+1,returnlines, lines)
 
