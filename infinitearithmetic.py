@@ -46,6 +46,7 @@ except Exception as err:
 
 def mathAdd(list, list1, list2, carry, index):
     # print("carry is ",carry)
+    print(list, list1, list2, carry, index)
     if(len(list1) > index and len(list2) > index):
         adding = int(list1[index])+int(list2[index])+int(carry)
     elif(len(list1) > index):
@@ -91,12 +92,25 @@ def assemble(index, list):
         return list[index]
     return assemble(index+1, list)+list[index]
 
+#call like this: assembleNoLeadZero(len(resultNodes) - 1, resultNodes, False)
+#resultNodes is the output of mathAdd
+def assembleNoLeadZero(index, list, leadzeros):
+    if index == 0:
+        if int(list[index]) == 0:
+            return ""
+        else:
+            return list[0]
+    if int(list[index]) == 0 and not leadzeros:
+        return "" + assembleNoLeadZero(index - 1, list, False)
+    return list[index] + assembleNoLeadZero(index - 1, list, True)
+
 
 # takes a string and breaks it into 4 digit segments in reversed order
 def formlists(list, num):
     if(len(num) < digitspernode):
         if(len(num) > 0):
             list.append(num)
+        print(list)
         return list
     else:
         list.append(num[-digitspernode:])
@@ -150,18 +164,22 @@ def recurseList(n,returnlines, lines):
     else:
         if "+" in lines[n]:
             a, b = lines[n].split("+")
-            if(a =="0" ):
+            if(int(a)==0):
                 result=b
-            elif(b=="0"):
+            elif(int(b)==0):
                 result=a
             else:
                 result =assemble(0,mathAdd(list(),formlists(list(), a), formlists(list(), b), 0, 0))
+                """ Rids of leading zeroes
+                resultNodes = mathAdd(list(),formlists(list(), a), formlists(list(), b), 0, 0)
+                result = assembleNoLeadZero(len(resultNodes) - 1, resultNodes, False)
+                """
             # result = (int(a)+int(b))
             returnlines.append(lines[n]+"="+str(result))
 
         elif "*" in lines[n]:
             a,b= lines[n].split("*")
-            if(a=="0" or b=="0"):
+            if(int(a)==0 or int(b)==0):
                 result="0"
             else:
                 result = (addAll(mathMult(a,b,0,list())))
