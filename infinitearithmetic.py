@@ -53,10 +53,13 @@ def mathAdd(list, list1, list2, carry, index):
     add = str(adding)
     # print(add)
     if(add == "0"):
-        add=addingZeros(digitspernode,"")
+        # add=addingZeros(digitspernode,"")
+        add="0"*digitspernode
         # add = "0000"
     if(len(add)<digitspernode and not(index == len(list1)-1)):
-        add=addingZeros(digitspernode-(len(add)),"")+add
+        zeros="0"*(digitspernode-(len(add)))
+        add=zeros+add
+        # add=addingZeros(digitspernode-(len(add)),"")+add
 
 
     # check if the 2 segments added together is bigger then the 4 digit segment allowed if so add the last digit to carry
@@ -114,22 +117,12 @@ def formlists(list, num):
         list.append(num[-digitspernode:])
         return formlists(list, num[:-digitspernode])
 
-# addes zeros where it is needed
-def addingZeros(index, zeroes):
-
-    if(index == 0):
-        return zeroes
-    else:
-        zeroes += "0"
-        return addingZeros(index-1, zeroes)
-
-    # print(assemble(0))
-
 # does the multiplication digit by digit 
 def mathMult(num1, num2, index, final):
     if(len(num2) > 0):
         # print(num2[-1:])
-        zeros = addingZeros(index, "")
+        # zeros = addingZeros(index, "")
+        zeros="0"*index
         add = str(int(num1)*int(num2[-1:]))+zeros
 
         if(int(add) == 0):
@@ -176,6 +169,8 @@ def recurseList(n,returnlines, lines):
                 # formlist breaks the number int segments then those are passed into mathAdd which address the segments and # 
                 # then is assembled back into one number
                 result =assemble(0,mathAdd(list(),formlists(list(), a), formlists(list(), b), 0, 0))
+                result=int(result)
+                result=str(result)
                 """ Rids of leading zeroes
                 resultNodes = mathAdd(list(),formlists(list(), a), formlists(list(), b), 0, 0)
                 result = assembleNoLeadZero(len(resultNodes) - 1, resultNodes, False)
