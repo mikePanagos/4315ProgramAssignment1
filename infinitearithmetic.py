@@ -54,6 +54,9 @@ def mathAdd(list, list1, list2, carry, index):
     if(add == "0"):
         add=addingZeros(digitspernode,"")
         # add = "0000"
+    if(len(add)<digitspernode and not(index == len(list1)-1)):
+        add=addingZeros(digitspernode-(len(add)),"")+add
+
 
     # check if the 2 segments added together is bigger then the 4 digit segment allowed if so add the last digit to carry
     if(len(add) > digitspernode):
