@@ -11,7 +11,7 @@ try:
             (arg1, val1) = (inputs[0].split("=")[0].strip(), inputs[0].split("=")[1].strip())
             (arg2, val2) = (inputs[1].split("=")[0].strip(), int(inputs[1].split("=")[1].strip()))
             if arg1.lower() == "input" and arg2.lower() == "digitspernode":
-                inputfile = val1.lower()
+                inputfile = val1
                 digitspernode = val2
             else:
                 raise Exception()
