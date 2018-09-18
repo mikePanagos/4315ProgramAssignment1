@@ -39,8 +39,6 @@ except Exception as err:
 
 # addeds digit segments together 
 def mathAdd(list, list1, list2, carry, index):
-    # print("carry is ",carry)
-    # print(list, list1, list2, carry, index)
     if(len(list1) > index and len(list2) > index):
         adding = int(list1[index])+int(list2[index])+int(carry)
     elif(len(list1) > index):
@@ -51,23 +49,17 @@ def mathAdd(list, list1, list2, carry, index):
         return list
 
     add = str(adding)
-    # print(add)
     if(add == "0"):
-        # add=addingZeros(digitspernode,"")
         add="0"*digitspernode
-        # add = "0000"
     if(len(add)<digitspernode and not(index == len(list1)-1)):
         zeros="0"*(digitspernode-(len(add)))
         add=zeros+add
-        # add=addingZeros(digitspernode-(len(add)),"")+add
 
 
     # check if the 2 segments added together is bigger then the 4 digit segment allowed if so add the last digit to carry
     if(len(add) > digitspernode):
         carry = int(add[:1])
-        # print( "carry is =",carry)
         list.append(add[1:])
-        # print ("the list is",list)
         if (index == len(list1)-1):
             if(carry):
                 list.append(str(carry))
@@ -80,15 +72,11 @@ def mathAdd(list, list1, list2, carry, index):
 
         carry = 0
 
-        # print("carry is", carry)
         return mathAdd(list, list1, list2, carry, index+1)
 
 
 # takes the  digit segments and combinds them again
 def assemble(index, list):
-    # print(list)
-    # print ("index is ",index)
-    # print(" val is ",final[index])
     if (index == len(list)-1):
         return list[index]
     return assemble(index+1, list)+list[index]
@@ -121,7 +109,6 @@ def formlists(list, num):
 def mathMult(num1, num2, index, final):
     if(len(num2) > 0):
         # print(num2[-1:])
-        # zeros = addingZeros(index, "")
         zeros="0"*index
         add = str(int(num1)*int(num2[-1:]))+zeros
 
@@ -130,9 +117,7 @@ def mathMult(num1, num2, index, final):
         else:
             final.append(add)
             return mathMult(num1, num2[:-1], index+1, final)
-        # print(num2[:-1])
     else:
-        # print(final)
         return final
 
 # adds all numbers for multiplication 
@@ -168,14 +153,13 @@ def recurseList(n,returnlines, lines):
             else:
                 # formlist breaks the number int segments then those are passed into mathAdd which address the segments and # 
                 # then is assembled back into one number
-                result =assemble(0,mathAdd(list(),formlists(list(), a), formlists(list(), b), 0, 0))
-                result=int(result)
-                result=str(result)
-                """ Rids of leading zeroes
-                resultNodes = mathAdd(list(),formlists(list(), a), formlists(list(), b), 0, 0)
-                result = assembleNoLeadZero(len(resultNodes) - 1, resultNodes, False)
-                """
-            # result = (int(a)+int(b))
+                try:
+                    result =assemble(0,mathAdd(list(),formlists(list(), a), formlists(list(), b), 0, 0))
+                    result=int(result)
+                    result=str(result)
+                except RecursionError as ERROR:
+                    result=ERROR
+                
             returnlines.append(lines[n]+"="+str(result))
 
         elif "*" in lines[n]:
