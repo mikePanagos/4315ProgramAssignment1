@@ -11,7 +11,7 @@ try:
             (arg1, val1) = (inputs[0].split("=")[0].strip(), inputs[0].split("=")[1].strip())
             (arg2, val2) = (inputs[1].split("=")[0].strip(), int(inputs[1].split("=")[1].strip()))
             if arg1.lower() == "input" and arg2.lower() == "digitspernode":
-                inputfile = val1
+                inputfile = val1.lower()
                 digitspernode = val2
             else:
                 raise Exception()
@@ -154,11 +154,6 @@ def recurseList(n,returnlines, lines):
                 # formlist breaks the number int segments then those are passed into mathAdd which address the segments and # 
                 # then is assembled back into one number
                 try:
-                    if(len(a)>100 or len(b)>100):
-                        if(len(a)>len(b)):
-                            sys.setrecursionlimit(len(a)+100)
-                        else:
-                            sys.setrecursionlimit(len(b)+100)
                     result =assemble(0,mathAdd(list(),formlists(list(), a), formlists(list(), b), 0, 0))
                     result=int(result)
                     result=str(result)
