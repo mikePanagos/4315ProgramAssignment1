@@ -1,6 +1,6 @@
 from file_maker import *
 import sys
-# from checkCorrectness import checkIfCorrect
+from checkCorrectness import checkIfCorrect
 
 inputfile = ""
 digitspernode = 0
@@ -154,6 +154,11 @@ def recurseList(n,returnlines, lines):
                 # formlist breaks the number int segments then those are passed into mathAdd which address the segments and # 
                 # then is assembled back into one number
                 try:
+                    if(len(a)>100 or len(b)>100):
+                        if(len(a)>len(b)):
+                            sys.setrecursionlimit(len(a)+100)
+                        else:
+                            sys.setrecursionlimit(len(b)+100)
                     result =assemble(0,mathAdd(list(),formlists(list(), a), formlists(list(), b), 0, 0))
                     result=int(result)
                     result=str(result)
@@ -181,4 +186,4 @@ def recurseList(n,returnlines, lines):
     return recurseList(n+1,returnlines, lines)
 
 writeLines("out.txt",recurseList(0,list(), getLines(inputTxt, list())))
-# checkIfCorrect()
+checkIfCorrect()
