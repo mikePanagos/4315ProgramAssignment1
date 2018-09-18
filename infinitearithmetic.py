@@ -1,6 +1,6 @@
 from file_maker import *
 import sys
-from checkCorrectness import checkIfCorrect
+# from checkCorrectness import checkIfCorrect
 
 inputfile = ""
 digitspernode = 0
@@ -180,8 +180,5 @@ def recurseList(n,returnlines, lines):
         print (returnlines[n])
     return recurseList(n+1,returnlines, lines)
 
-# strMath(lines[10])
-
-# print(returnlines)
 writeLines("out.txt",recurseList(0,list(), getLines(inputTxt, list())))
-checkIfCorrect()
+# checkIfCorrect()
