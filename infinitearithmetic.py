@@ -1,6 +1,6 @@
 from file_maker import *
 import sys
-# from checkCorrectness import checkIfCorrect
+from checkCorrectness import checkIfCorrect
 
 inputfile = ""
 digitspernode = 0
@@ -40,20 +40,29 @@ except Exception as err:
 # addeds digit segments together 
 def mathAdd(list, list1, list2, carry, index):
     if(len(list1) > index and len(list2) > index):
+        print("here")
+        
         adding = int(list1[index])+int(list2[index])+int(carry)
+        print(adding)
     elif(len(list1) > index):
+        print("here1")
         adding = int(list1[index])+int(carry)
     elif(len(list2) > index):
+        print("here2")
+        print(list2[index])
         adding = int(list2[index])+int(carry)
+        print(adding)
     else:
         return list
 
     add = str(adding)
+    print(add)
     if(add == "0"):
         add="0"*digitspernode
-    if(len(add)<digitspernode and not(index == len(list1)-1)):
+    if(len(add)<digitspernode and not((index >= len(list1))and(index >= len(list1)) )):
         zeros="0"*(digitspernode-(len(add)))
         add=zeros+add
+        print(add)
 
 
     # check if the 2 segments added together is bigger then the 4 digit segment allowed if so add the last digit to carry
@@ -63,15 +72,12 @@ def mathAdd(list, list1, list2, carry, index):
         if (index == len(list1)-1):
             if(carry):
                 list.append(str(carry))
-
             return list
         else:
           return mathAdd(list, list1, list2, carry, index+1)
     else:
         list.append(add)
-
         carry = 0
-
         return mathAdd(list, list1, list2, carry, index+1)
 
 
@@ -181,4 +187,4 @@ def recurseList(n,returnlines, lines):
     return recurseList(n+1,returnlines, lines)
 
 writeLines("out.txt",recurseList(0,list(), getLines(inputTxt, list())))
-# checkIfCorrect()
+checkIfCorrect()
