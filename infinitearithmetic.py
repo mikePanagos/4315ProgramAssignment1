@@ -78,18 +78,6 @@ def assemble(index, list):
         return list[index]
     return assemble(index+1, list)+list[index]
 
-#call like this: assembleNoLeadZero(len(resultNodes) - 1, resultNodes, False)
-#resultNodes is the output of mathAdd
-def assembleNoLeadZero(index, list, leadzeros):
-    if index == 0:
-        if int(list[index]) == 0:
-            return ""
-        else:
-            return list[0]
-    if int(list[index]) == 0 and not leadzeros:
-        return "" + assembleNoLeadZero(index - 1, list, False)
-    return list[index] + assembleNoLeadZero(index - 1, list, True)
-
 
 # takes a string and breaks it into 4 digit segments in reversed order
 def formlists(list, num):
