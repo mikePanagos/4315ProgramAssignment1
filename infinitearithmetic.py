@@ -1,6 +1,6 @@
 from file_maker import *
 import sys
-# from checkCorrectness import checkIfCorrect
+from checkCorrectness import checkIfCorrect
 
 inputfile = ""
 digitspernode = 0
@@ -51,7 +51,7 @@ def mathAdd(list, list1, list2, carry, index):
     add = str(adding)
     if(add == "0"):
         add="0"*digitspernode
-    if(len(add)<digitspernode and not(index == len(list1)-1)):
+    if(len(add)<digitspernode and not((index >= len(list1))and(index >= len(list1)) )):
         zeros="0"*(digitspernode-(len(add)))
         add=zeros+add
 
@@ -63,15 +63,12 @@ def mathAdd(list, list1, list2, carry, index):
         if (index == len(list1)-1):
             if(carry):
                 list.append(str(carry))
-
             return list
         else:
           return mathAdd(list, list1, list2, carry, index+1)
     else:
         list.append(add)
-
         carry = 0
-
         return mathAdd(list, list1, list2, carry, index+1)
 
 
@@ -181,4 +178,4 @@ def recurseList(n,returnlines, lines):
     return recurseList(n+1,returnlines, lines)
 
 writeLines("out.txt",recurseList(0,list(), getLines(inputTxt, list())))
-# checkIfCorrect()
+checkIfCorrect()
