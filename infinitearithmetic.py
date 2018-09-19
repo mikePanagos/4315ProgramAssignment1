@@ -40,29 +40,20 @@ except Exception as err:
 # addeds digit segments together 
 def mathAdd(list, list1, list2, carry, index):
     if(len(list1) > index and len(list2) > index):
-        print("here")
-        
         adding = int(list1[index])+int(list2[index])+int(carry)
-        print(adding)
     elif(len(list1) > index):
-        print("here1")
         adding = int(list1[index])+int(carry)
     elif(len(list2) > index):
-        print("here2")
-        print(list2[index])
         adding = int(list2[index])+int(carry)
-        print(adding)
     else:
         return list
 
     add = str(adding)
-    print(add)
     if(add == "0"):
         add="0"*digitspernode
     if(len(add)<digitspernode and not((index >= len(list1))and(index >= len(list1)) )):
         zeros="0"*(digitspernode-(len(add)))
         add=zeros+add
-        print(add)
 
 
     # check if the 2 segments added together is bigger then the 4 digit segment allowed if so add the last digit to carry
