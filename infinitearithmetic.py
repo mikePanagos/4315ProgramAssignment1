@@ -51,7 +51,7 @@ def mathAdd(list, list1, list2, carry, index):
     add = str(adding)
     if(add == "0"):
         add="0"*digitspernode
-    if(len(add)<digitspernode and not((index >= len(list1))and(index >= len(list1)) )):
+    if(len(add)<digitspernode and not((index >= len(list1))and(index >= len(list2)) )):
         zeros="0"*(digitspernode-(len(add)))
         add=zeros+add
 
