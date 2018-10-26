@@ -1,6 +1,6 @@
 from file_maker import *
 import sys
-# from checkCorrectness import checkIfCorrect
+from checkCorrectness import checkIfCorrect
 
 inputfile = ""
 digitspernode = 0
@@ -51,7 +51,7 @@ def mathAdd(list, list1, list2, carry, index):
     add = str(adding)
     if(add == "0"):
         add="0"*digitspernode
-    if(len(add)<digitspernode and not(index == len(list1)-1)):
+    if(len(add)<digitspernode and not((index >= len(list1))and(index >= len(list2)) )):
         zeros="0"*(digitspernode-(len(add)))
         add=zeros+add
 
@@ -63,15 +63,12 @@ def mathAdd(list, list1, list2, carry, index):
         if (index == len(list1)-1):
             if(carry):
                 list.append(str(carry))
-
             return list
         else:
           return mathAdd(list, list1, list2, carry, index+1)
     else:
         list.append(add)
-
         carry = 0
-
         return mathAdd(list, list1, list2, carry, index+1)
 
 
@@ -80,18 +77,6 @@ def assemble(index, list):
     if (index == len(list)-1):
         return list[index]
     return assemble(index+1, list)+list[index]
-
-#call like this: assembleNoLeadZero(len(resultNodes) - 1, resultNodes, False)
-#resultNodes is the output of mathAdd
-def assembleNoLeadZero(index, list, leadzeros):
-    if index == 0:
-        if int(list[index]) == 0:
-            return ""
-        else:
-            return list[0]
-    if int(list[index]) == 0 and not leadzeros:
-        return "" + assembleNoLeadZero(index - 1, list, False)
-    return list[index] + assembleNoLeadZero(index - 1, list, True)
 
 
 # takes a string and breaks it into 4 digit segments in reversed order
@@ -154,11 +139,6 @@ def recurseList(n,returnlines, lines):
                 # formlist breaks the number int segments then those are passed into mathAdd which address the segments and # 
                 # then is assembled back into one number
                 try:
-                    if(len(a)>100 or len(b)>100):
-                        if(len(a)>len(b)):
-                            sys.setrecursionlimit(len(a)+100)
-                        else:
-                            sys.setrecursionlimit(len(b)+100)
                     result =assemble(0,mathAdd(list(),formlists(list(), a), formlists(list(), b), 0, 0))
                     result=int(result)
                     result=str(result)
@@ -186,4 +166,4 @@ def recurseList(n,returnlines, lines):
     return recurseList(n+1,returnlines, lines)
 
 writeLines("out.txt",recurseList(0,list(), getLines(inputTxt, list())))
-# checkIfCorrect()
+checkIfCorrect()
