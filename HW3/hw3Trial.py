@@ -1,4 +1,4 @@
-import sys
+import sys 
 
 
 try:
@@ -15,71 +15,57 @@ except Exception as err:
     exit()
 
 try:
-    inputTxt = open(inputfile, "r")
+    inputTxt = open(inputfile, "r").read()
 except Exception as err:
     print(err)
     exit()
 
 
 
-def getLines(f, lst):
-    line = f.readline()
-    if line == "":
-        f.close()
-        return lst
-    else:
-        if line[-1] == '\n':
-            line = line[:-1]
-        lst.append(line)
-        return getLines(f, lst)
+def lex(files):
+    print("here")
+    tok=""
+    state=0
+    string =""
+    files=list(files)
+    for char in files:
+        tok+=char
+        if tok == " ":
+            if state==0:
+                tok=""
+            else:
+                tok=" "
+        elif tok=="\n":
+            tok=""
+        elif tok=="add":
+            print("found add")
+            tok=""
+        elif tok=="multiply":
+            print("found multiply")
+            tok=""
+        elif tok=="\"":
+            if state==0:
+                state=1
+            elif state==1:
+                print("found a string")
+                string=""
+                state=0
+        elif state ==1:
+            string+= char
+            tok=""
+        elif tok=="(":
+            print("found (")
+            tok=""
+        elif tok==")":
+            print("found )")
+            tok=""
+        elif tok==",":
+            print("found ,")
+            tok=""
 
-def is_number(s): 
-    for i in s:
-        try:
-            int(i)
-
-        except ValueError:
-            return -1
-    return 1
-
-def check(lst):
-    num=0
-    if(is_number(lst)==1):
-        for i in lst:
-            num+=int(i)
-        print(num)
-    else:
-        print("nope")
-
-def checkM(lst):
-    num=1
-    if(is_number(lst)==1):
-        for i in lst:
-            num=num*int(i)
-        print(num)
-    else:
-        print("nope")
-
-def add(a,b):
-    return a+b
-def multiply(a,b):
-    return a*b
-
-def findAnswer(line):
-    
-    return 7
+        
 
 
+print(inputTxt)
 
-
-def eval(list):
-    for i in list:
-        print (i)
-        i="print("+i+")"
-        exec(i)
-
-
-
-
-
-eval(getLines(inputTxt, list()))
+lex(inputTxt)
