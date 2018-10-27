@@ -1,1 +1,2 @@
-add(add(,),multiply(,))
+add(add(7,7),multiply(7,7))
+add(5,5)
