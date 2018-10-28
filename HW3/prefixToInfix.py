@@ -31,8 +31,8 @@ def prefixToInfix(tokens):
 		print("error: %s" % e)
 	print(result)
 
-opfunction = raw_input("Op Function: ")
+opfunction = input("Op Function: ")
 while opfunction != "":
 	prefixToInfix(tokenizer(opfunction))
 	opfunction = ""
-	opfunction = raw_input("Op Function: ")
+	opfunction = input("Op Function: ")
