@@ -101,17 +101,17 @@ def parse(toks):
             if(i+5<len(toks)):
                 if toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]==addToken:
                     a=int(toks[i+2][4:])+int(toks[i+4][4:])
-                    print("result is int + int",a)
+                    # print("result is int + int",a)
                     del toks[i:i+6]
                     toks.insert(i,"NUM:"+str(a))
-                    print(toks)
+                    # print(toks)
             if(i+5<len(toks)):
                 if toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]==multToken:
                     a=int(toks[i+2][4:])*int(toks[i+4][4:])
-                    print("result is int * int",a)
+                    # print("result is int * int",a)
                     del toks[i:i+6]
                     toks.insert(i,"NUM:"+str(a))
-                    print(toks)
+                    # print(toks) 
             i+=1
 
     print(toks)
