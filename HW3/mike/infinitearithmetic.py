@@ -233,14 +233,13 @@ def lex(files):
 def parse(toks):
     addToken="add(NUM,NUM)"
     multToken="multiply(NUM,NUM)"
-    # print toks
+    print (toks)
     a=0
     # print("add" in toks or "multiply" in toks)
     while("add" in toks or "multiply" in toks):
         i =0
         while(i<len(toks)):
             if(i+5<len(toks)):
-                # print(toks[i]+toks[i+1]+toks[i+2]+toks[i+3]+toks[i+4]+toks[i+5])
 
                 if toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]==addToken:
                     # a=int()+int()
@@ -265,11 +264,10 @@ def parse(toks):
     
    
 
-    
 # print(inputTxt)
 
 toks=lex(inputTxt)
 
 parse(toks)
-# writeLines("out.txt",recurseList(0,list(), getLines(inputTxt, list())))
+writeLines("out.txt",parse(lex( getLines(inputTxt, list()))))
 # checkIfCorrect()
