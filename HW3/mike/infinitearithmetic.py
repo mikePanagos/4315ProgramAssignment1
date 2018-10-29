@@ -179,7 +179,7 @@ def lex(files):
 
     for char in files:
         tok+=char
-        if tok!="0" or tok!="1" or tok!="2" or tok!="3" or tok!="4" or tok!="5" or tok!="6" or tok!="7" or  tok!="8" or tok!="9":
+        if tok!="0" and tok!="1" and tok!="2" and tok!="3" and tok!="4" and tok!="5" and tok!="6" and tok!="7" and  tok!="8" and tok!="9":
             if expr !="":
                 # print (expr)
                 tokens.append("NUM:"+expr)
@@ -239,20 +239,22 @@ def parse(toks):
     while("add" in toks or "multiply" in toks):
         i =0
         while(i<len(toks)):
-            # print(toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]+toks[i+6])
             if(i+5<len(toks)):
+                # print(toks[i]+toks[i+1]+toks[i+2]+toks[i+3]+toks[i+4]+toks[i+5])
+
                 if toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]==addToken:
                     # a=int()+int()
                     # print("found")
-                    a=assemble(0,mathAdd(list(),formlists(list(), toks[i+2][4:]), formlists(list(), toks[i+4][4:]), 0, 0))
+                    a=int(assemble(0,mathAdd(list(),formlists(list(), toks[i+2][4:]), formlists(list(), toks[i+4][4:]), 0, 0)))
+
                     # print("result is int + int",a)
                     del toks[i:i+6]
                     toks.insert(i,"NUM:"+str(a))
                     # print(toks)
-            if(i+5<len(toks)):
-                if toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]==multToken:
+            
+                elif toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]==multToken:
                     # a=int()*int()
-                    a = (addAll(mathMult(toks[i+2][4:],toks[i+4][4:],0,list())))
+                    a = int((addAll(mathMult(toks[i+2][4:],toks[i+4][4:],0,list()))))
                     # print("result is int * int",a)
                     del toks[i:i+6]
                     toks.insert(i,"NUM:"+str(a))
