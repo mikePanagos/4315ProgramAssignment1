@@ -1,6 +1,9 @@
-from file_maker import *
+# from file_maker import *
 import sys
-from checkCorrectness import checkIfCorrect
+import re
+
+# from checkCorrectness import checkIfCorrect
+tokens=[]
 
 inputfile = ""
 digitspernode = 0
@@ -29,7 +32,8 @@ except Exception as err:
     exit()
 
 try:
-    inputTxt = open(inputfile, "r")
+    inputTxt = open(inputfile, "r").read()
+    inputTxt +="<EOF>"
 except Exception as err:
     print(err)
     exit()
@@ -116,46 +120,6 @@ def addAll(numberList):
 
         return numberList[0]
 
-def evaluate(expression):
-    if "+" in expression:
-        a, b = expression.split("+")
-        if(not a.isdigit() or not b.isdigit()):
-            result="ERROR: improper operation "
-        elif(int(a)==0):
-            result=b
-        elif(int(b)==0):
-            result=a
-        elif(not a or not b):
-            result="ERROR: improper operation "
-        
-        else:
-            # formlist breaks the number int segments then those are passed into mathAdd which address the segments and # 
-            # then is assembled back into one number
-            try:
-                result = assemble(0,mathAdd(list(),formlists(list(), a), formlists(list(), b), 0, 0))
-                result=int(result)
-            except RecursionError as ERROR:
-                result=ERROR
-            
-        answer = result
-
-    elif "*" in expression:
-        a, b = expression.split("*")
-        if(not a or not b):
-            result="ERROR: improper operation "
-        elif(not a.isdigit() or not b.isdigit()):
-            result="ERROR: improper operation "
-        elif(int(a) == 0 or int(b) == 0):
-            result = 0
-        else:
-            # multiply the 2 numbers by going digit by digit on B and multiplying it to a then passes results 
-            # # to addAll to add all them together
-            result = (addAll(mathMult(a,b,0,list())))
-        answer = result
-    else:
-        answer = "ERROR: improper operation"
-
-    return answer
 
 # goes through the list of equations looks to see it its + or * then solves it accordingly and pushes it to a new list
 def recurseList(n,returnlines, lines):
@@ -204,5 +168,106 @@ def recurseList(n,returnlines, lines):
         print (returnlines[n])
     return recurseList(n+1,returnlines, lines)
 
-writeLines("out.txt",recurseList(0,list(), getLines(inputTxt, list())))
-checkIfCorrect()
+def lex(files):
+    # print("here")
+    tok=""
+    state=0
+    string =""
+    expr=""
+    n=0
+    files=list(files)
+
+    for char in files:
+        tok+=char
+        if tok!="0" or tok!="1" or tok!="2" or tok!="3" or tok!="4" or tok!="5" or tok!="6" or tok!="7" or  tok!="8" or tok!="9":
+            if expr !="":
+                # print (expr)
+                tokens.append("NUM:"+expr)
+                expr=""
+        if tok == " ":
+            if state==0:
+                tok=""
+            else:
+                tok=" "
+        elif tok=="0" or tok=="1" or tok=="2" or tok=="3" or tok=="4" or tok=="5" or tok=="6" or tok=="7" or  tok=="8" or tok=="9":
+            expr += tok
+            # print("found Number")
+            tok=""
+        elif tok=="\n" or tok=="<EOF>":
+            tokens.append("NL")
+            tok=""
+        elif tok=="add":
+            # print("found add")
+            tokens.append("add")
+            tok=""
+        elif tok=="multiply":
+            # print("found multiply")
+            tokens.append("multiply")
+            tok=""
+        elif tok=="\"":
+            if state==0:
+                state=1
+            elif state==1:
+                # print("found a string")
+                string=""
+                state=0
+        elif state ==1:
+            string+= char
+            tok=""
+        elif tok=="(":
+            # print("found (")
+            tokens.append("(")
+            tok=""
+        elif tok==")":
+            # print("found )")
+            tokens.append(")")
+            tok=""
+        elif tok==",":
+            tokens.append(",")
+            # print("found ,")
+            tok=""
+    return(tokens)
+
+        
+
+def parse(toks):
+    addToken="add(NUM,NUM)"
+    multToken="multiply(NUM,NUM)"
+    # print toks
+    a=0
+    # print("add" in toks or "multiply" in toks)
+    while("add" in toks or "multiply" in toks):
+        i =0
+        while(i<len(toks)):
+            # print(toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]+toks[i+6])
+            if(i+5<len(toks)):
+                if toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]==addToken:
+                    # a=int()+int()
+                    # print("found")
+                    a=assemble(0,mathAdd(list(),formlists(list(), toks[i+2][4:]), formlists(list(), toks[i+4][4:]), 0, 0))
+                    # print("result is int + int",a)
+                    del toks[i:i+6]
+                    toks.insert(i,"NUM:"+str(a))
+                    # print(toks)
+            if(i+5<len(toks)):
+                if toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]==multToken:
+                    # a=int()*int()
+                    a = (addAll(mathMult(toks[i+2][4:],toks[i+4][4:],0,list())))
+                    # print("result is int * int",a)
+                    del toks[i:i+6]
+                    toks.insert(i,"NUM:"+str(a))
+                    # print(toks) 
+            i+=1
+
+    print(toks)
+    
+   
+
+    
+# print(inputTxt)
+
+toks=lex(inputTxt)
+
+parse(toks)
+# writeLines("out.txt",recurseList(0,list(), getLines(inputTxt, list())))
+# checkIfCorrect()
