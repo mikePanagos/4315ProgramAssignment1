@@ -388,8 +388,8 @@ def formatOutput(answers, original):
    
 values = valuesFromTTY(sys.argv)
 inputTxt = textFileStream(values[0])
-inputTxt2 = inputTxt
-writeLines("out.txt",formatOutput(parse(lex(inputTxt.read(),list()),values[1]), getLines(inputTxt2, list())))
+inputTxt2 = textFileStream(values[0])
+writeLines("out.txt", formatOutput(parse(lex(inputTxt.read(),list()),values[1]), getLines(inputTxt2, list())))
 
 
 # writeLines("out.txt", recurseList(0, list(), getLines(inputTxt, list()), values[1]))
