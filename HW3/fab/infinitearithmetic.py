@@ -40,8 +40,7 @@ def textFileStream(inputfile):
     Postcondition: returns an object of type file
     """
     try:
-        inputTxt = open(inputfile, "r").read()
-        inputTxt +="<EOF>"
+        inputTxt = open(inputfile, "r")
     except Exception as err:
         print(err)
         exit()
@@ -70,6 +69,8 @@ def getLinesFP(file):
     
 
 def writeLines(name, lst):
+    print("WL: ")
+    print(lst)
     outf = open(name, "w")
     outf.write("\n".join(lst))
 
@@ -376,16 +377,19 @@ def parse(toks,digitspernode):
                     toks.insert(i,"NUM:"+str(a))
                     # print(toks) 
             i+=1
-    print(toks)
+    #print(toks)
 
     return toks
+
 def formatOutput(answers, original):
-    
+    print(str(answers) + " " + str(original))
+    return list(map(lambda x, y: x + '=' + y[4:], original, answers))
 
    
 values = valuesFromTTY(sys.argv)
 inputTxt = textFileStream(values[0])
-writeLines("out.txt",formatOutput(parse(lex( inputTxt,list()),values[1]),inputTxt))
+inputTxt2 = inputTxt
+writeLines("out.txt",formatOutput(parse(lex(inputTxt.read(),list()),values[1]), getLines(inputTxt2, list())))
 
 
 # writeLines("out.txt", recurseList(0, list(), getLines(inputTxt, list()), values[1]))
