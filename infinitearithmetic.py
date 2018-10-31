@@ -39,6 +39,7 @@ except Exception as err:
 
 # addeds digit segments together 
 def mathAdd(list, list1, list2, carry, index):
+    print(str(list1)+"\n"+str(list2)+"done\n\n")
     if(len(list1) > index and len(list2) > index):
         adding = int(list1[index])+int(list2[index])+int(carry)
     elif(len(list1) > index):
@@ -54,21 +55,36 @@ def mathAdd(list, list1, list2, carry, index):
     if(len(add)<digitspernode and not((index >= len(list1))and(index >= len(list2)) )):
         zeros="0"*(digitspernode-(len(add)))
         add=zeros+add
+    print(add+"\n\n")
 
 
     # check if the 2 segments added together is bigger then the 4 digit segment allowed if so add the last digit to carry
     if(len(add) > digitspernode):
         carry = int(add[:1])
+        print(str(carry)+" carry\n\n")
         list.append(add[1:])
-        if (index == len(list1)-1):
-            if(carry):
-                list.append(str(carry))
-            return list
+        if(len(list1)-1>len(list2)-1):
+            if (index == len(list1)-1):
+                if(carry):
+                    list.append(str(carry))
+                    print("="+str(list)+"answer\n\n")
+                return list
+            else:
+                print("="+str(list)+"answer\n\n")
+                return mathAdd(list, list1, list2, carry, index+1)
         else:
-          return mathAdd(list, list1, list2, carry, index+1)
+            if (index == len(list2)-1):
+                if(carry):
+                    list.append(str(carry))
+                    print("="+str(list)+"answer\n\n")
+                return list
+            else:
+                print("="+str(list)+"answer\n\n")
+                return mathAdd(list, list1, list2, carry, index+1)
     else:
         list.append(add)
         carry = 0
+        print("="+str(list)+"answer\n\n")
         return mathAdd(list, list1, list2, carry, index+1)
 
 

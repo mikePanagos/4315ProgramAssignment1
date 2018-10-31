@@ -126,12 +126,20 @@ def mathAdd(list, list1, list2, carry, index, digitspernode):
     if(len(add) > digitspernode):
         carry = int(add[:1])
         arr = appendList(list, add[1:])
-        if (index == len(list1)-1):
-            if(carry):
-                return appendList(list, str(carry))
-            return list
+        if(len(list1)-1>len(list2)-1):
+            if (index == len(list1)-1):
+                if(carry):
+                    return appendList(list, str(carry))
+                return list
+            else:
+                return mathAdd(list, list1, list2, carry, index+1, digitspernode)
         else:
-            return mathAdd(list, list1, list2, carry, index+1, digitspernode)
+            if (index == len(list2)-1):
+                if(carry):
+                    return appendList(list, str(carry))
+                return list
+            else:
+                return mathAdd(list, list1, list2, carry, index+1, digitspernode)
     else:
         arr = appendList(list, add)
         carry = 0
@@ -184,7 +192,9 @@ def addAll(numberList):
     Precondition: numberList is a list of numerical strings
     Postcondition: returns a reduced list of strings until one single string in the list
     """
-    if(len(numberList) > 1):
+    if len(numberList)<=0:
+        return "0"
+    elif(len(numberList) > 1):
         add=int(numberList[0])+int(numberList[1])
         numberList.remove(numberList[1])
         numberList[0]=str(add)
@@ -192,96 +202,96 @@ def addAll(numberList):
     else:
         return numberList[0]
 
-def evaluate(expression, digitspernode):
-    if "+" in expression:
-        a, b = expression.split("+")
-        if(not a.isdigit() or not b.isdigit()):
-            result="ERROR: improper operation "
-        elif(int(a)==0):
-            result=b
-        elif(int(b)==0):
-            result=a
-        elif(not a or not b):
-            result="ERROR: improper operation "
+# def evaluate(expression, digitspernode):
+#     if "+" in expression:
+#         a, b = expression.split("+")
+#         if(not a.isdigit() or not b.isdigit()):
+#             result="ERROR: improper operation "
+#         elif(int(a)==0):
+#             result=b
+#         elif(int(b)==0):
+#             result=a
+#         elif(not a or not b):
+#             result="ERROR: improper operation "
         
-        else:
-            # formlist breaks the number int segments then those are passed into mathAdd which address the segments and # 
-            # then is assembled back into one number
-            try:
-                result = assemble(0, mathAdd(list(), formlists(list(), a, digitspernode), formlists(list(), b, digitspernode), 0, 0, digitspernode))
-                result=int(result)
-            except RecursionError as ERROR:
-                result=ERROR
+#         else:
+#             # formlist breaks the number int segments then those are passed into mathAdd which address the segments and # 
+#             # then is assembled back into one number
+#             try:
+#                 result = assemble(0, mathAdd(list(), formlists(list(), a, digitspernode), formlists(list(), b, digitspernode), 0, 0, digitspernode))
+#                 result=int(result)
+#             except RecursionError as ERROR:
+#                 result=ERROR
             
-        answer = result
+#         answer = result
 
-    elif "*" in expression:
-        a, b = expression.split("*")
-        if(not a or not b):
-            result="ERROR: improper operation "
-        elif(not a.isdigit() or not b.isdigit()):
-            result="ERROR: improper operation "
-        elif(int(a) == 0 or int(b) == 0):
-            result = 0
-        else:
-            # multiply the 2 numbers by going digit by digit on B and multiplying it to a then passes results 
-            # # to addAll to add all them together
-            result = functools.reduce(lambda x, y: int(x) + int(y), mathMult(a,b,0,list()))
-        answer = result
-    else:
-        answer = "ERROR: improper operation"
+#     elif "*" in expression:
+#         a, b = expression.split("*")
+#         if(not a or not b):
+#             result="ERROR: improper operation "
+#         elif(not a.isdigit() or not b.isdigit()):
+#             result="ERROR: improper operation "
+#         elif(int(a) == 0 or int(b) == 0):
+#             result = 0
+#         else:
+#             # multiply the 2 numbers by going digit by digit on B and multiplying it to a then passes results 
+#             # # to addAll to add all them together
+#             result = functools.reduce(lambda x, y: int(x) + int(y), mathMult(a,b,0,list()))
+#         answer = result
+#     else:
+#         answer = "ERROR: improper operation"
 
-    return answer
+#     return answer
 
-# goes through the list of equations looks to see it its + or * then solves it accordingly and pushes it to a new list
-def recurseList(n, returnlines, lines, digitspernode):
-    """
-    Precondition: n is an integer that'll iterate, returnlines is a list of strings of equations, 
-        lines is a list of strings of expressions, digitspernode is a constant integer
-    Postcondition: returns returnlines a list of string of equations
-    """
-    if (n == len(lines)):
-        return returnlines
-    else:
-        #lines[n]=lines[n].replace(" ", "")
-        if "+" in lines[n]:
-            a, b = lines[n].split("+")
-            if(not a.isdigit() or not b.isdigit()):
-                result="ERROR: improper operation "
-            elif(int(a)==0):
-                result=b
-            elif(int(b)==0):
-                result=a
-            elif(not a or not b):
-                result="ERROR: improper operation "
+# # goes through the list of equations looks to see it its + or * then solves it accordingly and pushes it to a new list
+# def recurseList(n, returnlines, lines, digitspernode):
+#     """
+#     Precondition: n is an integer that'll iterate, returnlines is a list of strings of equations, 
+#         lines is a list of strings of expressions, digitspernode is a constant integer
+#     Postcondition: returns returnlines a list of string of equations
+#     """
+#     if (n == len(lines)):
+#         return returnlines
+#     else:
+#         #lines[n]=lines[n].replace(" ", "")
+#         if "+" in lines[n]:
+#             a, b = lines[n].split("+")
+#             if(not a.isdigit() or not b.isdigit()):
+#                 result="ERROR: improper operation "
+#             elif(int(a)==0):
+#                 result=b
+#             elif(int(b)==0):
+#                 result=a
+#             elif(not a or not b):
+#                 result="ERROR: improper operation "
             
-            else:
-                # formlist breaks the number int segments then those are passed into mathAdd which address the segments and # 
-                # then is assembled back into one number
-                try:
-                    result = str(int(assemble(0, mathAdd(list(), formlists(list(), a, digitspernode), formlists(list(), b, digitspernode), 0, 0, digitspernode))))
-                except RecursionError as ERROR:
-                    result=ERROR
+#             else:
+#                 # formlist breaks the number int segments then those are passed into mathAdd which address the segments and # 
+#                 # then is assembled back into one number
+#                 try:
+#                     result = str(int(assemble(0, mathAdd(list(), formlists(list(), a, digitspernode), formlists(list(), b, digitspernode), 0, 0, digitspernode))))
+#                 except RecursionError as ERROR:
+#                     result=ERROR
                 
-            arr = appendList(returnlines, lines[n] + " = " + result)
+#             arr = appendList(returnlines, lines[n] + " = " + result)
 
-        elif "*" in lines[n]:
-            a,b= lines[n].split("*")
-            if(not a or not b):
-                result="ERROR: improper operation "
-            elif(not a.isdigit() or not b.isdigit()):
-                result="ERROR: improper operation "
-            elif(int(a)==0 or int(b)==0):
-                result="0"
-            else:
-                # multiply the 2 numbers by going digit by digit on B and multiplying it to a then passes results 
-                # # to addAll to add all them together
-                result = functools.reduce(lambda x, y: int(x) + int(y), mathMult(a,b,0,list()))
-            arr = appendList(returnlines, lines[n] + " = " + str(result))
-        else:
-            arr = appendList(returnlines, lines[n] + " ERROR: improper operation ")
-        print (returnlines[n])
-    return recurseList(n+1, arr, lines, digitspernode)
+#         elif "*" in lines[n]:
+#             a,b= lines[n].split("*")
+#             if(not a or not b):
+#                 result="ERROR: improper operation "
+#             elif(not a.isdigit() or not b.isdigit()):
+#                 result="ERROR: improper operation "
+#             elif(int(a)==0 or int(b)==0):
+#                 result="0"
+#             else:
+#                 # multiply the 2 numbers by going digit by digit on B and multiplying it to a then passes results 
+#                 # # to addAll to add all them together
+#                 result = functools.reduce(lambda x, y: int(x) + int(y), mathMult(a,b,0,list()))
+#             arr = appendList(returnlines, lines[n] + " = " + str(result))
+#         else:
+#             arr = appendList(returnlines, lines[n] + " ERROR: improper operation ")
+#         print (returnlines[n])
+#     return recurseList(n+1, arr, lines, digitspernode)
 
 
 def lex(files,tokens):
@@ -355,10 +365,10 @@ def parse(toks,digitspernode):
     while("add" in toks or "multiply" in toks):
         i =0
         while(i<len(toks)):
-            if(i+5<len(toks)):
-                if(toks[i]=="NL"):
+            if(toks[i]=="NL"):
                     del toks[i]
-
+            if(i+5<len(toks)):
+                
                 if toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]==addToken:
                     # a=int()+int()
                     # print("found")
@@ -368,7 +378,6 @@ def parse(toks,digitspernode):
                     del toks[i:i+6]
                     toks.insert(i,"NUM:"+str(a))
                     # print(toks)
-            
                 elif toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4][:3]+toks[i+5]==multToken:
                     # a=int()*int()
                     a = int((addAll(mathMult(toks[i+2][4:],toks[i+4][4:],0,list()))))
@@ -376,8 +385,29 @@ def parse(toks,digitspernode):
                     del toks[i:i+6]
                     toks.insert(i,"NUM:"+str(a))
                     # print(toks) 
+            if (i+4<len(toks)):
+                if toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4]=="add(NUM,)":
+                    del toks[i:i+5]
+                    toks.insert(i,'NUM:Invald Expression')
+                elif toks[i]+toks[i+1]+toks[i+2]+toks[i+3][:3]+toks[i+4]=="add(,NUM)":
+                    del toks[i:i+5]
+                    toks.insert(i,'NUM:Invald Expression')
+                elif toks[i]+toks[i+1]+toks[i+2][:3]+toks[i+3]+toks[i+4]=="multiply(NUM,)":
+                    del toks[i:i+5]
+                    toks.insert(i,'NUM:Invald Expression')
+                elif toks[i]+toks[i+1]+toks[i+2]+toks[i+3][:3]+toks[i+4]=="multiply(,NUM)":
+                    del toks[i:i+5]
+                    toks.insert(i,'NUM:Invald Expression')
+            if(i+3<len(toks)):
+                if toks[i]+toks[i+1]+toks[i+2]+toks[i+3]=="multiply(,)":
+                    del toks[i:i+4]
+                    toks.insert(i,'NUM:Invald Expression')
+                elif toks[i]+toks[i+1]+toks[i+2]+toks[i+3]=="add(,)":
+                    del toks[i:i+4]
+                    toks.insert(i,'NUM:Invald Expression')
+            
             i+=1
-    #print(toks)
+    print(toks)
 
     return toks
 
