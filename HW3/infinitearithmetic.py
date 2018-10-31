@@ -69,8 +69,8 @@ def getLinesFP(file):
     
 
 def writeLines(name, lst):
-    print("WL: ")
-    print(lst)
+    # print("WL: ")
+    print("\n".join(lst))
     outf = open(name, "w")
     outf.write("\n".join(lst))
 
@@ -295,7 +295,7 @@ def addAll(numberList):
 
 
 def lex(files,tokens):
-    print("here")
+    # print("here")
     tok=""
     state=0
     string =""
@@ -359,7 +359,7 @@ def lex(files,tokens):
 def parse(toks,digitspernode):
     addToken="add(NUM,NUM)"
     multToken="multiply(NUM,NUM)"
-    print (toks)
+    # print (toks)
     a=0
     # print("add" in toks or "multiply" in toks)
     while("add" in toks or "multiply" in toks):
@@ -407,12 +407,12 @@ def parse(toks,digitspernode):
                     toks.insert(i,'NUM:Invald Expression')
             
             i+=1
-    print(toks)
+    # print(toks)
 
     return toks
 
 def formatOutput(answers, original):
-    print(str(answers) + " " + str(original))
+    # print(str(answers) + " " + str(original))
     return list(map(lambda x, y: x + '=' + y[4:], original, answers))
 
    
@@ -423,4 +423,4 @@ writeLines("out.txt", formatOutput(parse(lex(inputTxt.read(),list()),values[1]),
 
 
 # writeLines("out.txt", recurseList(0, list(), getLines(inputTxt, list()), values[1]))
-checkIfCorrect()
+# checkIfCorrect()
